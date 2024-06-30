@@ -1,3 +1,8 @@
-const response = await fetch("/.netlify/functions/init");
-const data = await response.json();
-document.getElementById("serverResponse").innerText = data.message;
+async function initialize() {
+  const response = await fetch("/.netlify/functions/init");
+  const data = await response.json();
+  console.log(data);
+  document.getElementById("serverResponse").innerText = data.message;
+}
+
+initialize();

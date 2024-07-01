@@ -1,14 +1,15 @@
 const { Client } = require("pg");
 
 exports.handler = async function (event, context) {
+  const isDevelopment = process.env.RUN_ENV === "development";
+
   const client = new Client({
-    connectionString:
-      process.env.RUN_ENV === "development"
-        ? "postgresql://localhost:5432/sophie-data-local"
-        : process.env.PG_CONNECTION_STRING,
-    ssl: {
-      rejectUnauthorized: true,
-    },
+    connectionString: isDevelopment
+      ? "postgresql://localhost:5432/sophie-data-local"
+      : process.env.PG_CONNECTION_STRING,
+    ssl: isDevelopment
+      ? { rejectUnauthorized: false }
+      : { rejectUnauthorized: true, ca: process.env.DB_CERT },
   });
 
   try {

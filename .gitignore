@@ -1,2 +1,5 @@
 .env
 side.js
+# Local Netlify folder
+.netlify
+node_modules

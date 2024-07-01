@@ -7,9 +7,7 @@ exports.handler = async function (event, context) {
     connectionString: isDevelopment
       ? "postgresql://localhost:5432/sophie-data-local"
       : process.env.PG_CONNECTION_STRING,
-    ssl: isDevelopment
-      ? { rejectUnauthorized: false }
-      : { rejectUnauthorized: true, ca: process.env.DB_CERT },
+    ssl: { rejectUnauthorized: false },
   });
 
   try {

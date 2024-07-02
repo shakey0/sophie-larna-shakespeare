@@ -10,8 +10,13 @@
     <h1>Welcome to My Static Site</h1>
     <script type="module" src="init.js"></script>
     <div id="serverResponse"></div>
-    <button id="fetchMessage">Get Message</button>
-    <div id="message"></div>
+    <form id="postForm">
+      <input type="text" name="name" />
+      <input type="text" name="word" />
+      <input type="text" name="number" />
+      <button type="submit" id="submit">Submit</button>
+    </form>
+    <div id="postResponse"></div>
     <script src="script.js"></script>
   </body>
 </html>

@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { v4: uuidv4 } = require("uuid");
+const sanitize = require("sanitize-filename");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage, limits: { files: 10 } });
@@ -76,9 +77,11 @@ exports.handler = async (event, context) => {
       try {
         const uploadResults = await Promise.all(
           files.map(async (file) => {
+            const sanitizedFilename = sanitize(file.originalname.split(".")[0]);
+
             const outputFilePath = path.join(
               "/tmp",
-              `${file.originalname.split(".")[0]}.webp`
+              `${sanitizedFilename}.webp`
             );
 
             // Resize, compress, and convert the image to .webp
@@ -89,9 +92,7 @@ exports.handler = async (event, context) => {
 
             const fileStream = fs.createReadStream(outputFilePath);
 
-            const uniqueKey = `sophie/${
-              file.originalname.split(".")[0]
-            }-${uuidv4()}.webp`;
+            const uniqueKey = `sophie/${sanitizedFilename}-${uuidv4()}.webp`;
 
             const uploadCommand = new PutObjectCommand({
               Bucket: process.env.BUCKET_NAME,

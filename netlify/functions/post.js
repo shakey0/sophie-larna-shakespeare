@@ -13,7 +13,6 @@ exports.handler = async function (event, context) {
   try {
     await client.connect();
   } catch (err) {
-    // Handle connection errors
     return {
       statusCode: 500,
       body: JSON.stringify({

@@ -1,6 +1,9 @@
 const { Client } = require("pg");
 
 exports.handler = async function (event, context) {
+  const eventHeaders = event.headers;
+  console.log("eventHeaders", eventHeaders);
+
   const isDevelopment = process.env.RUN_ENV === "development";
 
   const client = new Client({

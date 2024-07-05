@@ -3,6 +3,15 @@ async function initialize() {
   const data = await response.json();
   console.log(data);
   document.getElementById("serverResponse").innerText = data[1].word;
+
+  const source = document.head.querySelector("title").innerHTML;
+  document.getElementById("sourceLog").innerText = source;
+
+  if (source === "Amber") {
+    document.getElementById("sourceLog").style.color = "orange";
+  } else if (source === "Sophie") {
+    document.getElementById("sourceLog").style.color = "blue";
+  }
 }
 
 initialize();

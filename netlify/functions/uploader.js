@@ -1,13 +1,10 @@
-const multer = require("multer");
-const sharp = require("sharp");
-const fs = require("fs");
-const path = require("path");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { v4: uuidv4 } = require("uuid");
 const sanitize = require("sanitize-filename");
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage, limits: { files: 10 } });
+const sharp = require("sharp");
+const fs = require("fs");
+const path = require("path");
+const busboy = require("busboy");
 
 const s3Client = new S3Client({
   forcePathStyle: true,
@@ -36,53 +33,48 @@ exports.handler = async (event, context) => {
     };
   }
 
-  return new Promise((resolve, reject) => {
-    const req = {
-      ...event,
-      body: Buffer.from(event.body, "base64"),
-    };
-    const res = {
-      setHeader: () => {},
-      end: (body) => {
-        resolve({
-          statusCode: 200,
-          body,
-        });
-      },
-    };
+  const fields = {};
+  const files = [];
 
-    upload.array("photos")(req, res, async (err) => {
-      if (err) {
-        if (err.code === "LIMIT_FILE_COUNT") {
+  return new Promise((resolve, reject) => {
+    const bb = busboy({ headers: event.headers });
+
+    bb.on("field", (fieldname, val) => {
+      fields[fieldname] = val;
+    });
+
+    bb.on("file", (fieldname, file, info) => {
+      const { filename, encoding, mimeType } = info;
+      const sanitizedFilename = sanitize(filename.split(".")[0]);
+      const fileBuffer = [];
+
+      file.on("data", (data) => {
+        fileBuffer.push(data);
+      });
+
+      file.on("end", async () => {
+        const buffer = Buffer.concat(fileBuffer);
+        files.push({
+          fieldname,
+          buffer,
+          filename: sanitizedFilename,
+          mimeType,
+        });
+      });
+    });
+
+    bb.on("finish", async () => {
+      try {
+        if (!files.length) {
           return resolve({
             statusCode: 400,
-            body: "Error: Too many photos uploaded. Maximum of 10 per upload.",
+            body: "No photos uploaded.",
           });
         }
-        return resolve({
-          statusCode: 500,
-          body: "Internal Server Error: Photo upload failed",
-        });
-      }
 
-      const { files } = req;
-
-      if (!files || files.length === 0) {
-        return resolve({
-          statusCode: 400,
-          body: "No photos uploaded.",
-        });
-      }
-
-      try {
         const uploadResults = await Promise.all(
           files.map(async (file) => {
-            const sanitizedFilename = sanitize(file.originalname.split(".")[0]);
-
-            const outputFilePath = path.join(
-              "/tmp",
-              `${sanitizedFilename}.webp`
-            );
+            const outputFilePath = path.join("/tmp", `${file.filename}.webp`);
 
             // Resize, compress, and convert the image to .webp
             await sharp(file.buffer)
@@ -91,8 +83,7 @@ exports.handler = async (event, context) => {
               .toFile(outputFilePath);
 
             const fileStream = fs.createReadStream(outputFilePath);
-
-            const uniqueKey = `sophie/${sanitizedFilename}-${uuidv4()}.webp`;
+            const uniqueKey = `sophie/${file.filename}-${uuidv4()}.webp`;
 
             const uploadCommand = new PutObjectCommand({
               Bucket: process.env.BUCKET_NAME,
@@ -107,7 +98,7 @@ exports.handler = async (event, context) => {
             fs.unlinkSync(outputFilePath);
 
             return {
-              filename: file.originalname,
+              filename: file.filename,
               status: "uploaded",
               key: uniqueKey,
             };
@@ -119,7 +110,11 @@ exports.handler = async (event, context) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ success: true, files: uploadResults }),
+          body: JSON.stringify({
+            success: true,
+            files: uploadResults,
+            fields,
+          }),
         });
       } catch (error) {
         console.error("Error processing or uploading photos:", error);
@@ -129,5 +124,8 @@ exports.handler = async (event, context) => {
         });
       }
     });
+
+    bb.write(Buffer.from(event.body, "base64"));
+    bb.end();
   });
 };

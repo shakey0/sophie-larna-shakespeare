@@ -24,6 +24,8 @@ exports.handler = async (event, context) => {
     };
   }
 
+  console.log("Bucket Name start:", process.env.BUCKET_NAME);
+
   const contentType =
     event.headers["content-type"] || event.headers["Content-Type"];
   if (!contentType.startsWith("multipart/form-data")) {
@@ -84,6 +86,8 @@ exports.handler = async (event, context) => {
 
             const fileStream = fs.createReadStream(outputFilePath);
             const uniqueKey = `sophie/${file.filename}-${uuidv4()}.webp`;
+
+            console.log("Bucket Name before:", process.env.BUCKET_NAME);
 
             const uploadCommand = new PutObjectCommand({
               Bucket: process.env.BUCKET_NAME,

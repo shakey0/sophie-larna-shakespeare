@@ -16,6 +16,8 @@ const s3Client = new S3Client({
   },
 });
 
+const BUCKET_NAME = process.env.BUCKET_NAME;
+
 exports.handler = async (event, context) => {
   if (event.httpMethod !== "POST") {
     return {
@@ -23,8 +25,6 @@ exports.handler = async (event, context) => {
       body: "Method Not Allowed",
     };
   }
-
-  console.log("Bucket Name start:", process.env.BUCKET_NAME);
 
   const contentType =
     event.headers["content-type"] || event.headers["Content-Type"];
@@ -87,10 +87,8 @@ exports.handler = async (event, context) => {
             const fileStream = fs.createReadStream(outputFilePath);
             const uniqueKey = `sophie/${file.filename}-${uuidv4()}.webp`;
 
-            console.log("Bucket Name before:", process.env.BUCKET_NAME);
-
             const uploadCommand = new PutObjectCommand({
-              Bucket: process.env.BUCKET_NAME,
+              Bucket: BUCKET_NAME,
               Key: uniqueKey,
               Body: fileStream,
               ContentType: "image/webp",

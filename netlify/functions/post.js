@@ -1,6 +1,18 @@
+const cookie = require("cookie");
 const { Client } = require("pg");
 
 exports.handler = async function (event, context) {
+  const cookies = cookie.parse(event.headers.cookie || "");
+  const session = cookies.session;
+  console.log(session); // TAKE OUT LATER
+
+  if (!session) {
+    return {
+      statusCode: 401,
+      body: JSON.stringify({ error: "Unauthorized" }),
+    };
+  }
+
   const isDevelopment = process.env.RUN_ENV === "development";
 
   const client = new Client({

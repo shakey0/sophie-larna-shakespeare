@@ -73,6 +73,7 @@ exports.handler = async (event, context) => {
             body: "No photos uploaded.",
           });
         }
+        console.log("files.length", files.length); // LIMIT UPLOADS TO 12 PHOTOS
 
         const uploadResults = await Promise.all(
           files.map(async (file) => {

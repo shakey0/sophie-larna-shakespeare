@@ -8,7 +8,7 @@ const busboy = require("busboy");
 
 const s3Client = new S3Client({
   forcePathStyle: true,
-  region: process.env.BUCKET_REGION,
+  region: process.env.BUCKET_REGION, // TIDY THESE VARIABLES AND ESTABLISH THEM IN ONE CONST BLOCK
   endpoint: process.env.BUCKET_ENDPOINT,
   credentials: {
     accessKeyId: process.env.ACCESS_KEY_ID,
@@ -16,7 +16,7 @@ const s3Client = new S3Client({
   },
 });
 
-const BUCKET_NAME = process.env.BUCKET_NAME;
+const BUCKET_NAME = process.env.BUCKET_NAME; // TIDY AS ABOVE
 
 exports.handler = async (event, context) => {
   if (event.httpMethod !== "POST") {

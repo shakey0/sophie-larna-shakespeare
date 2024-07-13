@@ -1,0 +1,163 @@
+body {
+  background-color: #ffffff;
+  color: #2a2a2a;
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+.s-v-mgn {
+  margin: 5px 0;
+}
+
+.ml-v-mgn {
+  margin: 12.5px 0;
+}
+
+.no-mgn-top {
+  margin-top: 0;
+}
+
+.m-mgn-bottom {
+  margin-bottom: 10px;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+  width: 96%;
+}
+
+.home-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.main-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-container {
+  display: flex;
+  width: 80%;
+  max-width: 1100px;
+}
+
+.left-container {
+  flex: 3;
+  padding: 10px 0;
+  text-align: left;
+}
+
+.right-container {
+  flex: 2;
+  padding: 10px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.image-container img {
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.date-sentence {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #666;
+  margin: 10px 0;
+  width: fit-content;
+  background: linear-gradient(to right, #eee, rgba(240, 240, 240, 0));
+  position: relative;
+}
+
+.date-sentence::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  z-index: -1;
+  margin: -5px -10px;
+}
+
+.filler-square {
+  /* Delete this */
+  background-color: green;
+  height: 100px;
+  width: 100px;
+}
+
+.album-container {
+  width: 80%;
+  max-width: 1100px;
+  padding: 10px;
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.albums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.album {
+  width: 320px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px rgba(63, 63, 63, 0.3);
+  font-family: "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.album:hover {
+  transform: scale(1.05);
+}
+
+.album img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 5px;
+}

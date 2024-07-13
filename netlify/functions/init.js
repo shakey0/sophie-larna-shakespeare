@@ -22,7 +22,7 @@ const s3Client = new S3Client({
 exports.handler = async function (event, context) {
   // Check if the source is valid and set the data types
   const source = event.queryStringParameters.source;
-  const validSources = ["Sophie", "Amber", "Blevins"];
+  const validSources = ["Sophie", "Amber", "Blevins"]; // CAT_NAME
   if (!validSources.includes(source)) {
     return {
       statusCode: 400,
@@ -102,19 +102,28 @@ exports.handler = async function (event, context) {
       });
 
     const getImage = async (key) => {
-      const getObjectCommand = new GetObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: key,
-      });
+      try {
+        const getObjectCommand = new GetObjectCommand({
+          Bucket: BUCKET_NAME,
+          Key: key,
+        });
 
-      const response = await s3Client.send(getObjectCommand);
-      const body = await streamToString(response.Body);
+        const response = await s3Client.send(getObjectCommand);
+        const body = await streamToString(response.Body);
 
-      return {
-        key,
-        contentType: response.ContentType,
-        body,
-      };
+        return {
+          key,
+          contentType: response.ContentType,
+          body,
+        };
+      } catch (error) {
+        console.warn(`Error getting object ${key} from S3:`, error);
+        return {
+          key,
+          contentType: null,
+          body: null,
+        };
+      }
     };
 
     const dataWithImages = await Promise.all(

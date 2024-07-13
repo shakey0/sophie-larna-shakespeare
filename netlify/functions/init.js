@@ -69,7 +69,9 @@ exports.handler = async function (event, context) {
         coverPhoto: row.data[0],
         allPhotos: row.data,
         name: row.name,
-        order: row.order,
+        desc: row.info.desc,
+        date: row.info.date,
+        order: row.order_index,
       })); // Add more data from res.info , like the description, etc.
     } else {
       await client.end();

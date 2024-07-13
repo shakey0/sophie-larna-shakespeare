@@ -45,16 +45,17 @@ hr {
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: #007bff;
   border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
   cursor: pointer;
+}
+
+.home-btn img {
+  height: 78px;
+}
+
+.name-title {
+  margin-left: 72px;
+  margin-right: 72px;
 }
 
 .main-container {

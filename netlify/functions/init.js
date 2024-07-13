@@ -22,7 +22,7 @@ const s3Client = new S3Client({
 exports.handler = async function (event, context) {
   // Check if the source is valid and set the data types
   const source = event.queryStringParameters.source;
-  const validSources = ["Sophie", "Amber", "Blevins"];
+  const validSources = ["Sophie", "Amber", "Blevins"]; // CAT_NAME
   if (!validSources.includes(source)) {
     return {
       statusCode: 400,

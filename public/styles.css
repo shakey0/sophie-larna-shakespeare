@@ -17,8 +17,16 @@ h2 {
   margin: 5px 0;
 }
 
+.ml-v-mgn {
+  margin: 12.5px 0;
+}
+
 .no-mgn-top {
   margin-top: 0;
+}
+
+.m-mgn-bottom {
+  margin-bottom: 10px;
 }
 
 .width-100 {
@@ -77,6 +85,38 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.image-container img {
+  max-width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.date-sentence {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #666;
+  margin: 10px 0;
+  width: fit-content;
+  background: linear-gradient(to right, #eee, rgba(240, 240, 240, 0));
+  position: relative;
+}
+
+.date-sentence::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  z-index: -1;
+  margin: -5px -10px;
 }
 
 .filler-square {
@@ -120,9 +160,4 @@ hr {
   max-height: 350px;
   object-fit: cover;
   border-radius: 5px;
-}
-
-.album-date {
-  color: #666;
-  font-weight: 600;
 }

@@ -29,8 +29,7 @@ exports.handler = async function (event, context) {
       body: JSON.stringify({ error: "Invalid source" }),
     };
   }
-  let entryType = "A" + source.toLowerCase(); // THIS WILL CHANGE AND ANOTHER CHAR WILL NEED TO BE ADDED
-  console.log("source", entryType);
+  let entryTypes = ["AA" + source.toLowerCase(), "MA" + source.toLowerCase()];
   const folderName = source.toLowerCase() + "/";
   let albumsData = [];
 
@@ -60,8 +59,8 @@ exports.handler = async function (event, context) {
   try {
     if (event.httpMethod === "GET") {
       const res = await client.query(
-        "SELECT * FROM all_entries WHERE entry_type = $1",
-        [entryType]
+        "SELECT * FROM all_entries WHERE entry_type = ANY($1::text[])",
+        [entryTypes]
       );
       await client.end();
 
@@ -72,7 +71,9 @@ exports.handler = async function (event, context) {
         desc: row.info.desc,
         date: row.info.date,
         order: row.order_index,
-      })); // Add more data from res.info , like the description, etc.
+        super_id: row.super_id,
+        entryType: row.entry_type,
+      }));
     } else {
       await client.end();
       return {

@@ -66,7 +66,7 @@ hr {
 
 .info-container {
   display: flex;
-  width: 80%;
+  width: 90%;
   max-width: 1100px;
 }
 
@@ -78,10 +78,11 @@ hr {
 
 .right-container {
   flex: 2;
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .image-container {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -119,15 +120,8 @@ hr {
   margin: -5px -10px;
 }
 
-.filler-square {
-  /* Delete this */
-  background-color: green;
-  height: 100px;
-  width: 100px;
-}
-
 .album-container {
-  width: 80%;
+  width: 90%;
   max-width: 1100px;
   padding: 10px;
   text-align: left;
@@ -137,6 +131,7 @@ hr {
 .albums {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 40px;
   margin-top: 30px;
 }
@@ -160,4 +155,47 @@ hr {
   max-height: 350px;
   object-fit: cover;
   border-radius: 5px;
+}
+
+@media (max-width: 1279px) {
+  .info-container,
+  .album-container {
+    width: 96%;
+  }
+}
+
+@media (max-width: 1176px) {
+  .left-container,
+  .right-container {
+    flex: 1;
+  }
+
+  .info-container,
+  .album-container {
+    max-width: 900px;
+  }
+}
+
+@media (max-width: 780px) {
+  .info-container {
+    flex-direction: column;
+  }
+
+  .info-container,
+  .album-container {
+    max-width: 600px;
+  }
+
+  .about-title {
+    font-size: 1.8em;
+    padding: 5px 0;
+  }
+
+  .right-container {
+    order: -1;
+  }
+
+  .left-container {
+    padding: 0;
+  }
 }

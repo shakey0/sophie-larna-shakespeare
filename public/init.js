@@ -64,7 +64,7 @@ async function initialize() {
 
       const description = document.createElement("p");
       description.textContent = album.desc;
-      description.classList.add("ml-v-mgn");
+      description.classList.add("sm-v-mgn");
       profileData.appendChild(description);
     } else if (album.entryType === `AA${source.toLowerCase()}`) {
       const albumElement = document.createElement("div");

@@ -5,10 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Amber</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="album_view.css" />
   </head>
   <body>
     <h1>Amber</h1>
+    <button class="open-modal-button">Model</button>
+    <div class="modal-container">
+      <div class="modal-content">
+        <span class="close-modal-button"
+          ><img src="cat_flap.png" alt="Home"
+        /></span>
+        <div class="photos-container">
+          <h2 class="no-mgn-top m-mgn-bottom">Album Title</h2>
+          <p class="date-sentence" style="padding-left: 20px">
+            Taken in February 2022
+          </p>
+          <p class="sm-v-mgn text-left">
+            This is a description of the album. It can be multiple lines long. I
+            mean very very long, like it can go on and on and on and on for a
+            very very long time.
+          </p>
+          <div class="photos">
+            <img src="amber_pics/amber_brick.JPG" alt="Amber 1" class="photo" />
+            <img
+              src="amber_pics/amber_on_chair.JPG"
+              alt="Amber 2"
+              class="photo"
+            />
+            <img
+              src="amber_pics/amber_beautiful.JPG"
+              alt="Amber 3"
+              class="photo"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
     <p id="message"></p>
     <script type="module" src="init.js"></script>
+    <script type="module" src="album_view.js"></script>
   </body>
 </html>

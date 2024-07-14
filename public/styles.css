@@ -17,16 +17,24 @@ h2 {
   margin: 5px 0;
 }
 
-.ml-v-mgn {
-  margin: 12.5px 0;
+.sm-v-mgn {
+  margin: 7.5px 0;
 }
 
 .no-mgn-top {
   margin-top: 0;
 }
 
+.s-mgn-bottom {
+  margin-bottom: 5px;
+}
+
 .m-mgn-bottom {
   margin-bottom: 10px;
+}
+
+.text-left {
+  text-align: left;
 }
 
 .width-100 {
@@ -103,22 +111,12 @@ hr {
   font-size: 1.1em;
   font-weight: 600;
   color: #666;
-  margin: 10px 0;
+  margin: 0;
   width: fit-content;
   background: linear-gradient(to right, #eee, rgba(240, 240, 240, 0));
   position: relative;
-}
-
-.date-sentence::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  z-index: -1;
-  margin: -5px -10px;
+  padding: 5px 10px;
+  margin-left: -10px;
 }
 
 .album-container {
